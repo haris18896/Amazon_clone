@@ -45,4 +45,84 @@ export default App;
 Installing React-bootstrap ```npm install react-bootstrap bootstrap@4.6.0```
 importing bootstrap CSS to `src/index.js` ```import 'bootstrap/dist/css/bootstrap.min.css';```
 
+change the favicon by replacing the react favicon with the amazon favicon in `public/favicon.ico`
+
+Adding and customizing Header component
+```js
+//src/components/Header.js
+import React from 'react'
+import './Header.css'
+
+function Header() {
+    return (
+        <div className="header">
+            <img
+            className="header__logo"
+            src='https://pngimg.com/uploads/amazon/amazon_PNG25.png'
+            alt=''
+            />
+
+            <div className="header__search">
+                <input
+                className="header__searchInput"
+                type="text"
+                />
+            </div>
+
+            <div className="header__nav">
+                <div className="header__option">
+                    <span className="header__optionLineOne">Hello Guest</span>
+                    <span className="header__optionLineTwo">Sign In</span>
+                </div>
+
+                <div className="header__option">
+                    <span className="header__optionLineOne">Returns</span>
+                    <span className="header__optionLineTwo">& Orders</span>
+                </div>
+
+                <div className="header__option">
+                    <span className="header__optionLineOne">your</span>
+                    <span className="header__optionLineTwo">Prime</span>
+                </div>
+
+            </div>
+        </div>
+    )
+}
+
+export default Header
+```
+```js
+// src/components/Header.css
+.header{
+    height: 60px;
+    display: flex;
+    align-items: center;
+    background-color: #131921;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.header__logo{
+    width: 100px;
+    object-fit: contain;
+    margin: 0 20px;
+    margin-top: 18px;
+}
+```
+
+Install Material UI ```npm install @material-ui/core , npm install @material-ui/icons``` Now we can import fonts and icons
+
+the way to use Material UI
+
+```js
+import React from 'react';
+import { Button } from '@material-ui/core';
+
+function App() {
+  return <Button color="primary">Hello World</Button>;
+}
+```
+
 
