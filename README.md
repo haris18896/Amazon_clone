@@ -402,4 +402,3 @@ function Subtotal() {
 export default Subtotal
 ```
 
-
