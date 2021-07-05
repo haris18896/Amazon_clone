@@ -106,4 +106,22 @@ function Product({id, title, image, price, rating}) {
         //........
 ```
 
+Now adding the dynamic functionality to the cart item in the Header.js, so that on every Add too cart click it should update without reloading.
+
+```js
+//src/components/Header.js
+//.....
+import { useStateValue } from '../StateProvider'
+//....
+
+function Header() {
+    const [{basket}, dispatch] = useStateValue();
+
+    return (
+        //.....
+        <Link to="/checkout">
+            {/* //... */}
+            <span className="header__optionLineTwo header__basketCount">{basket.length}</span>
+            {/* //... */}
+```
 
