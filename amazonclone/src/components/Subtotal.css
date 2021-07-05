@@ -1,0 +1,22 @@
+.subtotal{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 300px;
+    height: 100px;
+    background-color: #dddddd;
+    border: 1px solid #3f3f3f;
+    border-radius: 3px;
+}
+
+.subtotal__gift{
+    display: flex;
+    align-items: center;
+}
+
+.subtotal__gift > input {
+    margin-right: 5px;
+}
+
+
+

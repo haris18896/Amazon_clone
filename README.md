@@ -310,3 +310,96 @@ function App() {
 //...
 ```
 
+add route to the Amazon logo and Cart icon
+```js
+//....
+import { Link } from 'react-router-dom'
+//....
+
+//...
+            <Link to="/">
+                <img
+                className="header__logo"
+                src='https://pngimg.com/uploads/amazon/amazon_PNG25.png'
+                alt=''
+                />
+            </Link>
+
+//....
+
+//....
+            <Link to="/checkout">
+                <div className="header__optionBasket">
+                    <ShoppingBasketIcon />
+                    <span className="header__optionLineTwo header__basketCount">0</span>
+                </div>
+            </Link>
+//...
+```
+Checkout.js in initial stage, Now we have to add components to the Checkout.js e.g subtotal and checkout
+```js
+//drc/components/Checkout.js
+import React from 'react'
+import './Checkout.css'
+
+function Checkout() {
+    return (
+        <div className="checkout">
+            <div className="checkout__left">
+                <img className="checkout__ad"
+                src="https://storage.googleapis.com/kaggle-datasets-images/33019/43260/700145bfae13a80a07bdeb33fe674ad0/data-original.jpg?t=2018-06-24-10-27-14"
+                alt=""/>
+
+            <div>
+                <h2 className="checkout__title">Your Shopping Basket</h2>
+            </div>
+
+            </div>
+
+            <div className="checkout__right">
+                <h2>the Sub-Total will go here</h2>
+            </div>
+        </div>
+    )
+}
+
+export default Checkout
+```
+
+to render money or currency install --> `npm i react-currency-format`
+```js
+//src/components/Subtotal.js
+import React from 'react'
+import './Subtotal.css'
+import CurrencyFormat from 'react-currency-format';
+import { Button } from 'react-bootstrap';
+
+
+function Subtotal() {
+    return (
+        <div className="subtotal">
+            <CurrencyFormat
+                renderText={(value) => (
+                    <>
+                        <p>Sub-total (0 items):<strong>0</strong></p>
+                        <small className="subtotal__gift">
+                            <input type="checkbox" />This order Contain a gift
+                        </small>
+                    </>
+                )}
+                decimalScale={2}
+                value={0}
+                displayType={"text"}
+                thousandSeparator={true}
+                prefix={"$"}
+                />
+
+                <Button variant="warning">Proceed to Checkout</Button>
+        </div>
+    )
+}
+
+export default Subtotal
+```
+
+
