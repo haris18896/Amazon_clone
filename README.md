@@ -276,7 +276,8 @@ export default Home
 
 Now we are going to introduce Route, using React Router
 first of all install react router dom ```npm i react-router-dom```
-Wrap everything of `App.js` in `Router`
+Wrap everything of `App.js` in `Router`.
+we didn't want to render the Route in the Home bcz we want to render it on the base of the route that we are in.
 ```js
 // src/App.js
 //...
@@ -287,8 +288,21 @@ function App() {
   return (
     <Router>
       <div className="App">
-        <Header />
-        <Home />
+        <Switch>
+        {/* Make sure your default route is at the bottom.
+        and know we can add as many routes as we want */}
+            <Route path="/checkout">
+                <Header />
+                <h1>Checkout</h1>
+            </Route>
+            {/* this is the home page route, default, by default if there is no route to go it will route the path to "/" home page */}
+            <Route path="/">
+                <Header />
+                <Home />
+            </Route>
+
+          </Switch>
+
       </div>
     </Router>
   );
