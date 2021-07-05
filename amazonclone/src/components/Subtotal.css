@@ -3,7 +3,7 @@
     flex-direction: column;
     justify-content: space-between;
     width: 300px;
-    height: 100px;
+    height: 150px;
     background-color: #dddddd;
     border: 1px solid #3f3f3f;
     border-radius: 3px;
@@ -18,5 +18,7 @@
     margin-right: 5px;
 }
 
-
+.button{
+    margin-top: 5px;
+}
 

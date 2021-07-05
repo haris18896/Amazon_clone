@@ -1,404 +1,109 @@
 # Amazon_clone
-***How to Build
+*** React Context API
 
-first of all create react app ``` npx create-react-app <app_name>```, after that make a project on firebase by the name of ```<app_name>``` for backend purposes.
+The React Context API is like a Redux, which is used to push data to the data layer.
+for example; when we press `Add to Cart` button the data will be sent to data layer and from their the cart will be updated, so this way our site wouldn't be reloaded again and again, we just have to push that data to data layer or can say to Store in Redux.
 
-move to the project directory ```cd <app_name> ``` and start the react package ```npm start```
+for this process we have to create a `State Provider`.
+do know that Redux and Context API are not same but they have same pattern.
+`Step #1`
+```js
+// src/StateProvider.js
+import React, { createContext, useContext, useReducer } from 'react'
 
-register your ```<project>``` on fire base as web
+//prepares the data layer
+export const StateContext = createContext();
 
-install firebase-tools ```npm install -g firebase-tools```
-goto `project settings` in firebase settings, and select config radio button and copy the config code and paste it into `src/firebase.js`
+//wrap our app and provide the data layer
+export const StateProvider = ({reducer, initialState, children}) => (
+    <StateContext.Provider value={useReducer(reducer, initialState)}>
+        {children}
+    </StateContext.Provider>
+);
+
+// pull information from data layer
+export const useStateValue = () => useContext(StateContext)
+```
+
+`Step #2`
+Now in `/src/index.js` we have to wrap our component using StateProvider, so that every component can get access to the data layer
 
 ```js
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = {
-  apiKey: "AIzaSyAyQXDbroYMR2V4FORIb1UdDc22K5Dw5RU",
-  authDomain: "clone-4cb1b.firebaseapp.com",
-  projectId: "clone-4cb1b",
-  storageBucket: "clone-4cb1b.appspot.com",
-  messagingSenderId: "648702785388",
-  appId: "1:648702785388:web:09f8c365d4c113373ae549",
-  measurementId: "G-PGJ2ZPT133"
+//src/index.js
+import StateProvider from './StateProvider'
+
+//.....
+ReactDOM.render(
+  <React.StrictMode>
+    <StateProvider initialState={initialState} reducer={reducer}>
+        <App />
+    </StateProvider>
+  </React.StrictMode>,
+  document.getElementById('root')
+);
+```
+
+`Step #3`
+Create `/src/reducer.js`
+A reducer is essentially how we are able to dispatch the action(add to basket) in the data layer
+```js
+export const initialState = {
+    basket : [],
 };
 ```
-Now let's build...will back to Firebase later
-
-clean your code by deleting `App.test.js, logo.svg, setupTest.js`
-and also clean `App.css, App.js, Index.css`
-```js
-//src/App.js
-import './App.css';
-import React from 'react'
-
-function App() {
-  return (
-    <div className="App">
-      <h1>Hello world, Let's build Amazon Clone</h1>
-    </div>
-  );
-}
-
-export default App;
-```
-
-Installing React-bootstrap ```npm install react-bootstrap bootstrap@4.6.0```
-importing bootstrap CSS to `src/index.js` ```import 'bootstrap/dist/css/bootstrap.min.css';```
-
-change the favicon by replacing the react favicon with the amazon favicon in `public/favicon.ico`
-
-Adding and customizing Header component
-```js
-//src/components/Header.js
-import React from 'react'
-import './Header.css'
-import SearchIcon from '@material-ui/icons/Search';
-import ShoppingBasketIcon from '@material-ui/icons/ShoppingBasket';
-
-
-
-function Header() {
-    return (
-        <div className="header">
-            <img
-            className="header__logo"
-            src='https://pngimg.com/uploads/amazon/amazon_PNG25.png'
-            alt=''
-            />
-
-            <div className="header__search">
-                <input
-                className="header__searchInput"
-                type="text"
-                />
-                <SearchIcon className="header_searchIcon"/>
-            </div>
-
-            <div className="header__nav">
-                <div className="header__option">
-                    <span className="header__optionLineOne">Hello Guest</span>
-                    <span className="header__optionLineTwo">Sign In</span>
-                </div>
-
-                <div className="header__option">
-                    <span className="header__optionLineOne">Returns</span>
-                    <span className="header__optionLineTwo">& Orders</span>
-                </div>
-
-                <div className="header__option">
-                    <span className="header__optionLineOne">your</span>
-                    <span className="header__optionLineTwo">Prime</span>
-                </div>
-
-                <div className="header__optionBasket">
-                    <ShoppingBasketIcon />
-                    <span className="header__optionLineTwo header__basketCount">0</span>
-                </div>
-
-            </div>
-        </div>
-    )
-}
-
-export default Header
-
-```
-```css
-/* src/components/Header.css */
-.header{
-    height: 60px;
-    display: flex;
-    align-items: center;
-    background-color: #131921;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-}
-
-
-.header__logo{
-    width: 100px;
-    object-fit: contain;
-    margin: 0 20px;
-    margin-top: 18px;
-}
-
-.header__search{
-    display: flex;
-    flex: 1;
-    align-items: center;
-    border-radius: 24px;
-}
-
-.header__searchInput{
-    height: 12px;
-    padding: 10px;
-    border: none;
-    width: 100%;
-}
-
-.header_searchIcon{
-    padding: 5px;
-    height: 22px !important;
-    background-color: #cd9042;
-}
-
-.header__optionLineOne{
-    font-size: 10px;
-
-}
-
-.header__optionLineTwo{
-    font-size: 13px;
-    font-weight: 800;
-}
-
-.header__optionBasket{
-    display: flex;
-    align-items: center;
-    color: white;
-}
-
-.header__basketCount{
-    margin-left: 10px;
-    margin-right: 10px;
-}
-
-.header__nav{
-    display: flex;
-    justify-content: space-evenly;
-}
-
-.header__option{
-    display: flex;
-    flex-direction: column;
-    margin-left: 10px;
-    margin-right: 10px;
-    color: white;
-}
-
-
-```
-
-Install Material UI ```npm install @material-ui/core , npm install @material-ui/icons``` Now we can import fonts and icons
-
-the way to use Material UI
 
 ```js
-// src/components/Home.js
-import React from 'react';
-import { Button } from '@material-ui/core';
-
-function App() {
-  return <Button color="primary">Hello World</Button>;
-}
+//src/index.js
+import reducer, { initialState } from './Reducer'
 ```
-
+Reducer is something that always listening for dispatch
+the action in reducer is what you want to do here, you want to add to the basket, remove from the basket etc
 ```js
-import React from 'react'
-import './Home.css'
-import Product from './Product'
-import {  Container } from 'react-bootstrap'
-
-function Home() {
-    return (
-        <div className="Home">
-            <div className="Home-container">
-                <div
-                    className="Home-banner"
-                    style={{backgroundImage: "url(https://images-na.ssl-images-amazon.com/images/G/01/AmazonExports/Fuji/2021/June/Fuji_TallHero_Gamers_en_US_1x._CB667161802_.jpg)"}}>
-
-                </div>
-
-                <div className="Home-content">
-
-                    <div className="Home-row">
-                        <Product id="123456"
-                                title="Oculus"
-                                price={29.99}
-                                image="https://images-na.ssl-images-amazon.com/images/G/01/AmazonExports/Fuji/2021/June/Fuji_Dash_Oculus_1x._SY304_CB667158353_.jpg"
-                                rating={4} />
-                        <Product id="123457"
-                                title="AmazonBasics"
-                                price={20.19}
-                                image="https://images-na.ssl-images-amazon.com/images/G/01/AmazonExports/Fuji/2019/July/amazonbasics_520x520._SY304_CB442725065_.jpg"
-                                rating={5} />
-                    </div>
-                    <div className="Home-row">
-                        <Product id="123458"
-                                title="Gaming accessories"
-                                price={29.99}
-                                image="https://images-na.ssl-images-amazon.com/images/G/01/AmazonExports/Fuji/2021/June/Fuji_Quad_Headset_1x._SY116_CB667159060_.jpg"
-                                rating={4} />
-                        <Product id="123459"
-                                title="Beauty picks"
-                                price={20.19}
-                                image="https://images-na.ssl-images-amazon.com/images/G/01/AmazonExports/Fuji/2020/May/Dashboard/Fuji_Dash_Beauty_1x._SY304_CB432774351_.jpg"
-                                rating={5} />
-                        <Product id="123459"
-                                title="Shop Laptops & Tablets"
-                                price={20.19}
-                                image="https://images-na.ssl-images-amazon.com/images/G/01/AmazonExports/Fuji/2020/May/Dashboard/Fuji_Dash_Laptops_379x304_1X_en_US._SY304_CB418608471_.jpg"
-                                rating={5} />
-                        <Product id="1234500"
-                                title="Explore home bedding"
-                                price={20.19}
-                                image="https://images-na.ssl-images-amazon.com/images/G/01/AmazonExports/Fuji/2020/May/Dashboard/Fuji_Dash_HomeBedding_Single_Cat_1x._SY304_CB418596953_.jpg"
-                                rating={5} />
-                    </div>
-
-                </div>
-            </div>
-        </div>
-    )
-}
-
-export default Home
-```
-
-```css
-/* src/components/Home.css */
-.Home-row {
-    display: flex;
-}
-
-.Home-content {
-    margin-top: -350px;
-}
-
-.Home-banner {
-    height: 600px;
-    background-size: cover;
-    background-position: center;
-    -webkit-mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0));
-}
-```
-
-Now we are going to introduce Route, using React Router
-first of all install react router dom ```npm i react-router-dom```
-Wrap everything of `App.js` in `Router`.
-we didn't want to render the Route in the Home bcz we want to render it on the base of the route that we are in.
-```js
-// src/App.js
-//...
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-//...
-
-function App() {
-  return (
-    <Router>
-      <div className="App">
-        <Switch>
-        {/* Make sure your default route is at the bottom.
-        and know we can add as many routes as we want */}
-            <Route path="/checkout">
-                <Header />
-                <h1>Checkout</h1>
-            </Route>
-            {/* this is the home page route, default, by default if there is no route to go it will route the path to "/" home page */}
-            <Route path="/">
-                <Header />
-                <Home />
-            </Route>
-
-          </Switch>
-
-      </div>
-    </Router>
-  );
-}
-//...
-```
-
-add route to the Amazon logo and Cart icon
-```js
+//src/reducer.js
 //....
-import { Link } from 'react-router-dom'
-//....
+const reducer = {state, action} => {
+    switch(action.type) {
+        case 'ADD_TO_BASKET':
+            return {
+                ...state,   //what ever the state originally was
+                basket: [...state.basket , action.item],      //change the basket
+            };
+        default:
+            return state,
+    }
+};
 
-//...
-            <Link to="/">
-                <img
-                className="header__logo"
-                src='https://pngimg.com/uploads/amazon/amazon_PNG25.png'
-                alt=''
-                />
-            </Link>
-
-//....
-
-//....
-            <Link to="/checkout">
-                <div className="header__optionBasket">
-                    <ShoppingBasketIcon />
-                    <span className="header__optionLineTwo header__basketCount">0</span>
-                </div>
-            </Link>
-//...
+export default reducer;
 ```
-Checkout.js in initial stage, Now we have to add components to the Checkout.js e.g subtotal and checkout
+
+`Step #4`
+Now we need to connect our `addToBasket` so that we can push something inside
+
+in order to pull the data from data layer, we have to `useSateProvider` in products.js
+
 ```js
-//drc/components/Checkout.js
-import React from 'react'
-import './Checkout.css'
+//src/components/Products.js
+//.......
+import {useStateValue} from '../StateProvider'
+//.......
+function Product({id, title, image, price, rating}) {
+    const [{basket}, dispatch] = useStateValue();
 
-function Checkout() {
+    const addToBasket = () => {
+        //dispatch the item into the data layer
+        dispatch({
+            type: 'ADD_TO_BASKET',
+            item: {
+                id: id,
+                title: title,
+                image: image,
+                price: price,
+                rating: rating,
+            },
+        });
+    };
     return (
-        <div className="checkout">
-            <div className="checkout__left">
-                <img className="checkout__ad"
-                src="https://storage.googleapis.com/kaggle-datasets-images/33019/43260/700145bfae13a80a07bdeb33fe674ad0/data-original.jpg?t=2018-06-24-10-27-14"
-                alt=""/>
-
-            <div>
-                <h2 className="checkout__title">Your Shopping Basket</h2>
-            </div>
-
-            </div>
-
-            <div className="checkout__right">
-                <h2>the Sub-Total will go here</h2>
-            </div>
-        </div>
-    )
-}
-
-export default Checkout
+        //........
 ```
 
-to render money or currency install --> `npm i react-currency-format`
-```js
-//src/components/Subtotal.js
-import React from 'react'
-import './Subtotal.css'
-import CurrencyFormat from 'react-currency-format';
-import { Button } from 'react-bootstrap';
-
-
-function Subtotal() {
-    return (
-        <div className="subtotal">
-            <CurrencyFormat
-                renderText={(value) => (
-                    <>
-                        <p>Sub-total (0 items):<strong>0</strong></p>
-                        <small className="subtotal__gift">
-                            <input type="checkbox" />This order Contain a gift
-                        </small>
-                    </>
-                )}
-                decimalScale={2}
-                value={0}
-                displayType={"text"}
-                thousandSeparator={true}
-                prefix={"$"}
-                />
-
-                <Button variant="warning">Proceed to Checkout</Button>
-        </div>
-    )
-}
-
-export default Subtotal
-```
 
