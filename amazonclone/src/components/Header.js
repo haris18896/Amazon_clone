@@ -4,6 +4,7 @@ import SearchIcon from '@material-ui/icons/Search';
 import ShoppingBasketIcon from '@material-ui/icons/ShoppingBasket';
 
 
+
 function Header() {
     return (
         <div className="header">

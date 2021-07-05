@@ -52,6 +52,10 @@ Adding and customizing Header component
 //src/components/Header.js
 import React from 'react'
 import './Header.css'
+import SearchIcon from '@material-ui/icons/Search';
+import ShoppingBasketIcon from '@material-ui/icons/ShoppingBasket';
+
+
 
 function Header() {
     return (
@@ -67,6 +71,7 @@ function Header() {
                 className="header__searchInput"
                 type="text"
                 />
+                <SearchIcon className="header_searchIcon"/>
             </div>
 
             <div className="header__nav">
@@ -85,15 +90,21 @@ function Header() {
                     <span className="header__optionLineTwo">Prime</span>
                 </div>
 
+                <div className="header__optionBasket">
+                    <ShoppingBasketIcon />
+                    <span className="header__optionLineTwo header__basketCount">0</span>
+                </div>
+
             </div>
         </div>
     )
 }
 
 export default Header
+
 ```
-```js
-// src/components/Header.css
+```css
+/* src/components/Header.css */
 .header{
     height: 60px;
     display: flex;
@@ -104,12 +115,69 @@ export default Header
     z-index: 100;
 }
 
+
 .header__logo{
     width: 100px;
     object-fit: contain;
     margin: 0 20px;
     margin-top: 18px;
 }
+
+.header__search{
+    display: flex;
+    flex: 1;
+    align-items: center;
+    border-radius: 24px;
+}
+
+.header__searchInput{
+    height: 12px;
+    padding: 10px;
+    border: none;
+    width: 100%;
+}
+
+.header_searchIcon{
+    padding: 5px;
+    height: 22px !important;
+    background-color: #cd9042;
+}
+
+.header__optionLineOne{
+    font-size: 10px;
+
+}
+
+.header__optionLineTwo{
+    font-size: 13px;
+    font-weight: 800;
+}
+
+.header__optionBasket{
+    display: flex;
+    align-items: center;
+    color: white;
+}
+
+.header__basketCount{
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.header__nav{
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.header__option{
+    display: flex;
+    flex-direction: column;
+    margin-left: 10px;
+    margin-right: 10px;
+    color: white;
+}
+
+
 ```
 
 Install Material UI ```npm install @material-ui/core , npm install @material-ui/icons``` Now we can import fonts and icons
@@ -117,6 +185,7 @@ Install Material UI ```npm install @material-ui/core , npm install @material-ui/
 the way to use Material UI
 
 ```js
+// src/components/Home.js
 import React from 'react';
 import { Button } from '@material-ui/core';
 
@@ -125,4 +194,105 @@ function App() {
 }
 ```
 
+```js
+import React from 'react'
+import './Home.css'
+import Product from './Product'
+import {  Container } from 'react-bootstrap'
+
+function Home() {
+    return (
+        <div className="Home">
+            <div className="Home-container">
+                <div
+                    className="Home-banner"
+                    style={{backgroundImage: "url(https://images-na.ssl-images-amazon.com/images/G/01/AmazonExports/Fuji/2021/June/Fuji_TallHero_Gamers_en_US_1x._CB667161802_.jpg)"}}>
+
+                </div>
+
+                <div className="Home-content">
+
+                    <div className="Home-row">
+                        <Product id="123456"
+                                title="Oculus"
+                                price={29.99}
+                                image="https://images-na.ssl-images-amazon.com/images/G/01/AmazonExports/Fuji/2021/June/Fuji_Dash_Oculus_1x._SY304_CB667158353_.jpg"
+                                rating={4} />
+                        <Product id="123457"
+                                title="AmazonBasics"
+                                price={20.19}
+                                image="https://images-na.ssl-images-amazon.com/images/G/01/AmazonExports/Fuji/2019/July/amazonbasics_520x520._SY304_CB442725065_.jpg"
+                                rating={5} />
+                    </div>
+                    <div className="Home-row">
+                        <Product id="123458"
+                                title="Gaming accessories"
+                                price={29.99}
+                                image="https://images-na.ssl-images-amazon.com/images/G/01/AmazonExports/Fuji/2021/June/Fuji_Quad_Headset_1x._SY116_CB667159060_.jpg"
+                                rating={4} />
+                        <Product id="123459"
+                                title="Beauty picks"
+                                price={20.19}
+                                image="https://images-na.ssl-images-amazon.com/images/G/01/AmazonExports/Fuji/2020/May/Dashboard/Fuji_Dash_Beauty_1x._SY304_CB432774351_.jpg"
+                                rating={5} />
+                        <Product id="123459"
+                                title="Shop Laptops & Tablets"
+                                price={20.19}
+                                image="https://images-na.ssl-images-amazon.com/images/G/01/AmazonExports/Fuji/2020/May/Dashboard/Fuji_Dash_Laptops_379x304_1X_en_US._SY304_CB418608471_.jpg"
+                                rating={5} />
+                        <Product id="1234500"
+                                title="Explore home bedding"
+                                price={20.19}
+                                image="https://images-na.ssl-images-amazon.com/images/G/01/AmazonExports/Fuji/2020/May/Dashboard/Fuji_Dash_HomeBedding_Single_Cat_1x._SY304_CB418596953_.jpg"
+                                rating={5} />
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    )
+}
+
+export default Home
+```
+
+```css
+/* src/components/Home.css */
+.Home-row {
+    display: flex;
+}
+
+.Home-content {
+    margin-top: -350px;
+}
+
+.Home-banner {
+    height: 600px;
+    background-size: cover;
+    background-position: center;
+    -webkit-mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0));
+}
+```
+
+Now we are going to introduce Route, using React Router
+first of all install react router dom ```npm i react-router-dom```
+Wrap everything of `App.js` in `Router`
+```js
+// src/App.js
+//...
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+//...
+
+function App() {
+  return (
+    <Router>
+      <div className="App">
+        <Header />
+        <Home />
+      </div>
+    </Router>
+  );
+}
+//...
+```
 
