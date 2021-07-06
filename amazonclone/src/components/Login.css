@@ -1,0 +1,25 @@
+
+
+.login{
+    align-items: center;
+    height: 50vh;
+
+}
+
+.login__img {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+    object-fit:contain;
+    height: 10vh;
+}
+
+.login__signIn{
+    margin-top: 20px;
+    margin-bottom: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+}
