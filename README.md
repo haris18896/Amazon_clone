@@ -1,290 +1,67 @@
 # Amazon_clone
-## React Firebase Authentication
+## Deployment steps to firebase
 
-first of all Create a login route in `/src/App.js`
-```js
-//....
-<Route path="/login">
-    <Login />
-</Route>
+first of all we have to install `firebase-tools` globally
 
-<Route path="/SignUp">
-    <SignUp />
-</Route>
-//....
+Step #1
+
+```bash
+$ npm install -g firebase-tools
+
+    Allow Firebase to collect CLI usage and error reporting information? (Y/n) y
+    #  Now wait for Authentication from google
 ```
 
-```js
-//src/components/Header.js
-//....
-<div className="header__nav">
-    <Link to="/login">
-        <div className="header__option">
-            <span className="header__optionLineOne">Hello Guest</span>
-            <span className="header__optionLineTwo">Sign In</span>
-        </div>
-    </Link>
-
-</>
-//....
+Step #2
+```bash
+$ firebase login
 ```
-```js
-//src/components/login.js
-import './Login.css'
-import React, {useState} from 'react'
-import { Link } from 'react-router-dom'
-import { Container, Button, Row, Col } from 'react-bootstrap'
+if you are already logged in, then skip this step
 
-function Login() {
+Step #3
+```bash
+$ firebase init
+    Are you ready to proceed? (Y/n) y
 
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    ---> ( ) >(*) Hosting: Configure files for Firebase Hosting and (optionally) set up GitHub Action deploys
 
-    const signIn = e => {
-      e.preventDefault();
+    ? Please select an option:
+    > Use an existing project
+      Create a new project
+      Add Firebase to an existing Google Cloud Platform project
+      Don't set up a default project
 
-      //firebase login stuff goes here
-    }
+      clone-4cb1b (amazon-clone)
 
-    const register = e => {
-      e.preventDefault();
+      ? What do you want to use as your public directory? build
 
-      // firebase registration stuff goes here
-    }
+      ? Configure as a single-page app (rewrite all urls to /index.html)? (y/N) y
 
-    return (
-        <Container className="login">
-            <Row>
-              <Col>
-                <Link to="/">
-                  <img className="login__img" src="https://pngimg.com/uploads/amazon/amazon_PNG25.png" alt="" />
-                </Link>
-              </Col>
-            </Row>
+      ? Set up automatic builds and deploys with GitHub? (y/N) y
 
-            <Row>
-              <Col>
-                <div className=" ctn_login login__container">
-                  <div className="col-md-6 m-auto">
-                    <h1 className="login__signIn" >Sign In</h1>
+      ? For which GitHub repository would you like to set up a GitHub workflow? (format: user/repository) haris18896/Amazon_clone
 
-                    <form>
+      ? Set up the workflow to run a build script before every deploy? (y/N) y
+      ({ It simply means that before deploying, should a specific script be run? For example, you may need to run a command to build some sources. In React.js, you would need to build before deploying, so the command to enter would be:
 
-                      <div className="form-group">
-                        <label htmlFor="email">Email address</label>
-                        <input type="email" name="email" className="form-control"
-                          id="email" aria-describedby="emailHelp" placeholder="Enter email" 
-                         value={email} onChange={e => setEmail(e.target.value)}/>
-                        <small id="emailHelp" className="form-text text-muted">
-                          Email that you have used while registration.
-                        </small>
-                      </div>
+      $ npm run build })
 
-                      <div className="form-group">
-                        <label htmlFor="password">Password</label>
-                        <input type="password" name="password" className="form-control"
-                         id="password" placeholder="Password"
-                         value={password} onChange={e => setPassword(e.target.value)} />
-                      </div>
+      ? What script should be run before every deploy? (npm ci && npm run build) npm run build
+      ? What script should be run before every deploy? npm run build
 
-                      <div className="form-check">
-                        <input type="checkbox" name="checkbox" className="form-check-input" id="remember" />
-                        <label className="form-check-label" htmlFor="remember">
-                          Remember me
-                        </label>
-                      </div>
-
-                      <Button type="submit" variant="info" className="btn float-right btn_mrg"
-                        onClick={signIn}>
-                        Login
-                      </Button>
-
-                      <Button variant="outline-secondary" onClick={register} className="btn float-left btn_mrg">Create Account</Button>
-
-
-                    </form>
-                  </div>
-              </div>
-              </Col>
-            </Row>
-
-        </Container>
-    )
-}
-
-export default Login
-
+      ? Set up automatic deployment to your site's live channel when a PR is merged? Yes
+      ? What is the name of the GitHub branch associated with your site's live channel? 4_deployment
 
 ```
-
-Now we are going to add the Firebase authentication functionality in the above functions we created for login and registration.
-
-`firebase --> Authentication --> sign-in method --> enable Email/Password and then Save`
-
-```
-npm i firebase
-npm i firebase-tools
-npm install --save firebase
+```bash
+$ npm run build
 ```
 
-Now goto the `/src/firebase.js`
-
-```js
-// src/firebase.js
-import firebase from 'firebase';
-//....
-//....
-const firebaseApp = firebase.initializeApp(firebaseConfig);
-
-const db = firebaseApp.firestore();
-const auth = firebase.auth();
-
-export {db, auth};
-```
-```js
-//src/components/login.js
-import { auth } from '../firebase'
-//.....
-
-const register = e => {
-    e.preventDefault();
-    // firebase registration stuff goes here
-    auth
-    .createUserWithEmailAndPassword(email, password)
-    .then((auth) => {
-      //successfully created a user email and Password
-      console.log(auth)
-    })
-    .catch(error => alert(error.message))
-  }
+```bash
+$ firebase deploy
 ```
 
-At this point when we enter our credentials in the email and password field, and click on create account Button, our account will be created. you will see it as an object in the Inspect.
+once we finish `npm run build` and after that you make any changes to the app you will have to run `npm run build` again
 
-Now we have to push this to the home page using `useHistory`
-```js
-//src/components/login.js
-import { Link, useHistory } from 'react-router-dom'
-//...
-
-const register = e => {
-      e.preventDefault();
-      auth
-      .createUserWithEmailAndPassword(email, password)
-      .then((auth) => {
-        console.log(auth)
-        if (auth){
-          history.push('/')
-        }
-      })
-      .catch(error => alert(error.message))
-
-    }
-```
-
-```js
-//src/components/login.js
-const signIn = e => {
-      e.preventDefault();
-      //firebase login stuff goes here
-      auth
-      .signInWithEmailAndPassword(email, password)
-      .then(auth => {
-        history.push('/')
-      })
-      .catch(error => alert(error.message))
-    }
-```
-```js
-//src/App.js
-import { auth } from './firebase';
-//.....
-function App() {
-  useEffect(() => {
-    // will only run once when the app component loads
-    // it's like a dynamic if statement
-
-    auth.onAuthStateChanged(authUser => {
-      console.log('This User is >>>>>', authUser);
-
-      if (authUser){
-        //the user was logged in / or just logged in 
-      } else {
-        // user was Logged out
-      }
-      
-    })
-  },[])
-
-```
-Now we have to add user to our store `/src/reducer.js` as initially a null user or as an initial state
-```js
-//src/reducer.js
-export const initialState = {
-    basket : [],
-    user : null,
-};
-//....
-```
-so Now we have to dispatch the user if the user is authenticated to the data layer
-```js
-//src/App.js
-import { useStateValue } from './StateProvider';
-//....
-function App() {
-  const [{}, dispatch] = useStateValue()
-
-  useEffect(() => {
-    auth.onAuthStateChanged(authUser => {
-      console.log('This User is >>>>>', authUser);
-
-      if (authUser){
-        dispatch({
-          type: 'SET_USER',
-          user: authUser,
-        })
-      } else {
-        dispatch({
-          type: 'SET_USER',
-          user: null
-        })
-      }
-    })
-  },[])
-
-//.....
-```
-Now we are going to make a case that will lesson to the above code
-```js
-case 'SET_USER':
-    return {
-        ...state,
-        user: action.user //this is the user that we have dispatched from App.js
-    }
-```
-Now the browser will remember it.
-
-```js
-//src/components/header.js
-import { auth } from './firebase'
-
-function Header() {
-    const [{basket, user}, dispatch] = useStateValue();
-
-    const handleAuthentication = () => {
-        if(user){
-            auth.signOut();
-        }
-    }
-
-    //......
-    //if there is no user then and only then push to login page
-    <Link to={!user && '/login'}>
-        <div className="header__option" onClick={handleAuthentication}>
-            <span className="header__optionLineOne">Hello {user? user.email : 'guest'}</span>
-            <span className="header__optionLineTwo">{user ? 'Sign Out' : 'Sign In'}</span>
-        </div>
-    </Link>
-```
 
 
