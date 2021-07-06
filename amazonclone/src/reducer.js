@@ -13,12 +13,11 @@ const reducer = (state, action) => {
                 ...state,
                 basket: [...state.basket, action.item],
             };
-        
+
         case "REMOVE_FROM_BASKET":
             const index = state.basket.findIndex(
                 (basketItem) => basketItem.id === action.id
             );
-            // copy the basket
             let newBasket= [...state.basket];
 
             if (index >=  0 ){
@@ -30,7 +29,7 @@ const reducer = (state, action) => {
             return {...state,
                 basket: newBasket
             };
-            
+
         default:
             return state
     }
