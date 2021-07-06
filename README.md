@@ -125,3 +125,125 @@ function Header() {
             {/* //... */}
 ```
 
+Now we are going to build a selector in `/src/reducer.js`
+```js
+//src/reducer.js
+//......
+// selector, it's a fancy way of writing a for loop and incrementing everything and returning
+export const getBasketTotal = (basket) => 
+    basket?.reduce((amount, item) => item.price + amount, 0)
+
+//......
+```
+```js
+//src/components/subtotal.js
+import { getBasketTotal } from '../reducer';
+
+function Subtotal() {
+    const [{basket}, dispatch] = useStateValue();
+
+//...
+                renderText={(value) => (
+                    <>
+                        <p>Sub-total ({basket.length} items):<strong>{value}</strong></p>
+//....
+value={getBasketTotal(basket)}
+//....
+
+```
+```js
+//src/components/CheckoutProduct.js
+import React from 'react'
+import './CheckoutProduct.css'
+import {Button} from 'react-bootstrap'
+import { useStateValue } from '../StateProvider';
+
+function CheckoutProduct({id, image, title, price, rating}) {
+    const [{basket}, dispatch] = useStateValue();
+
+    const removeFromBasket = () => {
+        dispatch({
+            type: 'REMOVE_FROM_BASKET',
+            id: id,
+            // Now add this action to reducer
+        })
+    }
+
+    return (
+        <div className="checkoutProduct">
+            <img className="checkoutProduct__image" src={image}  alt=""/>
+            <div className="checkoutProduct__info">
+                <p className="checkoutProduct__title">{title}</p>
+                <p className="checkoutProduct__price"><small>$</small><strong>{price}</strong></p>
+                <div className="checkoutProduct__rating">
+                    {Array(rating).fill().map((_, i) => (
+                        <p>🌟</p>
+                    ))}
+                </div>
+                <Button variant="outline-danger" onClick={removeFromBasket}>Remove from Basket</Button>
+            </div>
+        </div>
+    )
+}
+
+export default CheckoutProduct
+```
+```js
+//src/components/CheckoutProduct.css
+.checkoutProduct{
+    display:flex;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.checkoutProduct__info{
+    padding-left: 20px;
+}
+
+.checkoutProduct__image{
+    object-fit: contain;
+    width: 180px;
+    height: 180px;
+}
+
+.checkoutProduct__rating{
+    display:flex;
+}
+
+.checkoutProduct__title{
+    font-size: 17px;
+    font-weight: 800;
+}
+```
+
+```js
+//src/reducer.js
+//.....
+ case "REMOVE_FROM_BASKET":
+    return{
+        ...state,
+        basket: state.basket.filter(item => item.id !== action.id)
+    };
+    //but the above code has a drawback, as it will remove all the same type of items on removeFromBasket button click,bcz every item of same id will be deleted. so for that we are going to do it like below code
+//.....
+{/* or can do this way*/}
+ case "REMOVE_FROM_BASKET":
+        // we have to find the index of the item
+    const index = state.basket.findIndex(
+        (basketItem) => basketItem.id === action.id
+        );
+        // copy the basket
+        let newBasket= [...state.basket];
+
+        if (index >=  0 ){
+            newBasket.splice(index, 1);
+        } else {
+            console.warn(`can't remove product (id : ${action.id}) as it's not in the basket`)
+        }
+
+        return {...state,
+            basket: newBasket
+        };
+```
+
+
