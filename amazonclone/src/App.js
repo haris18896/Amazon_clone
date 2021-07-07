@@ -6,6 +6,8 @@ import './App.css';
 import Header from './components/Header'
 import Home from './components/Home'
 import Checkout from './components/Checkout'
+import Payment from './components/Payment'
+
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Login from './components/Login'
 import { auth } from './firebase';
@@ -50,7 +52,11 @@ function App() {
                 <Route path="/checkout">
                   <Header />
                   <Checkout />
+                </Route>
 
+                <Route path="/payment">
+                  <Header />
+                  <Payment />
                 </Route>
               {/* this is the home page route, default, by default if there is no route to go it will route the path 
               to "/" home page */}

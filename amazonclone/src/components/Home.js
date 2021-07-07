@@ -28,22 +28,22 @@ function Home() {
                                 rating={5} />
                     </div>
                     <div className="Home-row">
-                        <Product id="123458"
+                        <Product className="product" id="123458"
                                 title="Gaming accessories"
                                 price={29.99}
                                 image="https://images-na.ssl-images-amazon.com/images/G/01/AmazonExports/Fuji/2021/June/Fuji_Quad_Headset_1x._SY116_CB667159060_.jpg"
                                 rating={4} />
-                        <Product id="123459"
+                        <Product className="product" id="123459"
                                 title="Beauty picks"
                                 price={20.19}
                                 image="https://images-na.ssl-images-amazon.com/images/G/01/AmazonExports/Fuji/2020/May/Dashboard/Fuji_Dash_Beauty_1x._SY304_CB432774351_.jpg"
                                 rating={5} />
-                        <Product id="123459"
+                        <Product className="product" id="123459"
                                 title="Shop Laptops & Tablets"
                                 price={20.19}
                                 image="https://images-na.ssl-images-amazon.com/images/G/01/AmazonExports/Fuji/2020/May/Dashboard/Fuji_Dash_Laptops_379x304_1X_en_US._SY304_CB418608471_.jpg"
                                 rating={5} />
-                        <Product id="1234500"
+                        <Product className="product" id="1234500"
                                 title="Explore home bedding"
                                 price={20.19}
                                 image="https://images-na.ssl-images-amazon.com/images/G/01/AmazonExports/Fuji/2020/May/Dashboard/Fuji_Dash_HomeBedding_Single_Cat_1x._SY304_CB418596953_.jpg"

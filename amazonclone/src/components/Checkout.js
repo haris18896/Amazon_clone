@@ -16,7 +16,7 @@ function Checkout() {
                 src="https://images-eu.ssl-images-amazon.com/images/G/31/img18/TV/Sanyo/SanyoWebBanner01._CB1198675309_.jpg"
                 alt=""/>
 
-            <div>
+            <div className="user__text">
                 <h3>Hello, {user?.email}</h3>
                 <h2 className="checkout__title">Your Shopping Basket</h2>
                 {basket.map(item => (
