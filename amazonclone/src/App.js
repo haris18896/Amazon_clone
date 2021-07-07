@@ -12,6 +12,7 @@ import { auth } from './firebase';
 import { useStateValue } from './StateProvider';
 // import SignUp from './components/SignUp'
 
+
 function App() {
   const [{}, dispatch] = useStateValue()
 
