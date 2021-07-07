@@ -1,6 +1,7 @@
 import React from 'react'
 import './Product.css'
 import {useStateValue} from '../StateProvider'
+import { Button } from 'react-bootstrap'
 
 
 function Product({id, title, image, price, rating}) {
@@ -32,7 +33,7 @@ function Product({id, title, image, price, rating}) {
                 </span>
             </div>
             <img src={image} alt=""/>
-            <button onClick={addToBasket}>Add to Cart</button>
+            <Button className="btn_add_to_cart" variant="outline-warning" onClick={addToBasket}>Add to Cart</Button>
         </div>
 
     )

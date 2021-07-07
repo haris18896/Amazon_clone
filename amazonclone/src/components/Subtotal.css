@@ -2,12 +2,28 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    align-items: center;
     width: 300px;
     height: 150px;
-    background-color: #dddddd;
-    border: 1px solid #3f3f3f;
-    border-radius: 3px;
-    color: black;
+    background-color: rgb(68, 68, 68);
+    border-radius: 20px;
+    color: white;
+    box-shadow: 0 4px 8px 0 rgba(160, 160, 160, 0.5), 0 6px 20px 0 rgba(138, 138, 138, 0.5);
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    -ms-border-radius: 20px;
+    -o-border-radius: 20px;
+}
+
+.subtotal:hover{
+    -ms-transform: scale(1.1);
+    /*IE9*/-webkit-transform: scale(1.1);
+    /*Safari3-8*/transform: scale(1.1);
+    -webkit-transform: scale(1.1);
+    -moz-transform: scale(1.1);
+    -o-transform: scale(1.1);
+    box-shadow: 0 4px 8px 0 rgba(160, 160, 160, 0.9), 0 6px 20px 0 rgba(138, 138, 138, 0.3);
+
 }
 
 .subtotal__gift{
@@ -21,5 +37,6 @@
 
 .button{
     margin-top: 5px;
+    margin-bottom: 5px;
 }
 
