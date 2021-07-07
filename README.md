@@ -7,5 +7,6 @@
 npm i -S react-flip-move
 ```
 
+##Integrating Stripe Payment Method
 
 
