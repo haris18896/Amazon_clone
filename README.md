@@ -251,4 +251,26 @@ we yet to have write the cloud base URL in `/src/axios.js`
 Now we are jumping too cloud 
 *******************************************************************************************
 
+```
+`firebase init`
+            ? Are you ready to proceed? (Y/n) y
+            (*) Functions: Configure a Cloud Functions directory and its files
+            ? What language would you like to use to write Cloud Functions? (Use arrow keys)
+        > JavaScript
+            ? Do you want to use ESLint to catch probable bugs and enforce style? (y/N) y
+            ? Do you want to install dependencies with npm now? (Y/n) y
+```
+"it will create a Functions folder in the working directory which is a full backend"
+`$ cd functions`
+`funstions` has it's own node_modules and package.json
+
+### ` on any point from now make sure you are in the functions directory `
+other wise you will be installing packages to your app but not to backend.
+
+Now we are going to build an express app and host it on Cloud function
+
+```js
+//functions/index.js
+
+```
 
