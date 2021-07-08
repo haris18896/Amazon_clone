@@ -376,7 +376,7 @@ Now we are going to make a post request
 ```js
 //functions/index.js
 // API routes
-app.post("/payments/create", async (request, response) => {
+app.post("/payments/create", async ((request, response) => {
     // query param
     const total = request.query.total;
     console.log("Payment Request Received, for this amount",  total)
@@ -388,5 +388,104 @@ app.post("/payments/create", async (request, response) => {
     response.status(201).send({
         clientSecret: paymentIntents.clientSecret,
         })
-});
+}));
+```
+
+Now goto `/src/axios.js` and change the baseURL endpoint to API
+```js
+const instance = axios.create({
+    // the API (cloud function) URL
+    baseURL: "http function initialized (http://localhost:5001/clone-4cb1b/us-central1/api)"
+})
+```
+
+and it's because we have Listen command in functions/index.js which is listening to the api above and that's why it's get that name api.
+```js
+//functions/index.js
+// Listen command
+exports.api = functions.https.onRequest(app);
+```
+```js
+//src/components/payments.js
+//....
+useEffect(() => {
+    //.....
+},[basket])
+
+console.log("The Secret is >>>", clientSecret)
+```
+
+if you are getting a function token error, then you have to install the firebase functions
+```bash
+npm install firebase-functions@latest firebase-admin@latest --save
+npm i firebase-functions@latest
+npm i -g firebase-tools@latest
+npm install babel-eslint --save-dev
+```
+******************************************************************************************
+```
+ Parsing error: Unexpected token => eslint
+ ```
+
+ to solve this error
+```bash
+npm install babel-eslint --save-dev
+```
+Secondly, add this configuration in .eslintrc file
+```js
+{
+   "parser":"babel-eslint"
+}
+```
+*********************************************************************************************
+`ERR_BLOCKED_BY_CLIENT`
+solution:
+
+`Disable uBlock extension in browser`
+*********************************************************************************************
+in the card area, type
+```
+##42
+```
+ for testing everything
+*********************************************************************************************
+when everything is good, and the order is completed it will redirect you to the `/orders` route.
+now go to the `Stripe.com` and the amount is added to your account. which you also can see in payments.it will be the same payment as we will see in.
+```js
+console.log("Payment Request Received BOOM!!! for this amount >>> ", total);
+```
+***********************************************************************************************
+Now in `/src/components/payments.js
+```js
+//src/components/payments.js
+
+//.........
+
+            setSucceeded(true);
+            setError(null);
+            setProcessing(false);
+
+            dispatch({
+                type: "EMPTY_BASKET",
+            })
+
+            history.replace('/orders')
+        })
+// add this dispatch to empty the basket,
+```
+and then add it to the `/src/reducer.js` so that it can listen to the event
+```js
+//src/reducer.js
+case "EMPTY_BASKET":
+    return {
+        ...state,
+        basket : []
+    };
+```
+```js
+//src/App.js
+//......
+<Route path="/orders">
+    <Orders />
+</Route>
 ```

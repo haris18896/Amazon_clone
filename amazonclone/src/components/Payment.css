@@ -33,3 +33,7 @@
     flex: 0.8;
     color: white;
 }
+
+.payment__form{
+    background-color: rgb(209, 209, 209);
+}

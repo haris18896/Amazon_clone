@@ -40,6 +40,8 @@ function Payment() {
         getClientSecret();
     }, [basket])
 
+    console.log("The Secret is >>>", clientSecret)
+
     const handleSubmit = async event => {
         event.preventDefault();
         setProcessing(true)
@@ -52,6 +54,10 @@ function Payment() {
             setSucceeded(true);
             setError(null);
             setProcessing(false);
+
+            dispatch({
+                type: "EMPTY_BASKET",
+            })
 
             history.replace('/orders')
         })
@@ -66,7 +72,7 @@ function Payment() {
         <div className="payment">
             <div className="payment__container">
                 <h1>checkout ( <Link to="/checkout" >{basket?.length} items</Link> )</h1>
-                <dv className="payment__section">
+                <div className="payment__section">
                     <div className="payment__title">
                         <h3>Delivery Address</h3>
                     </div>
@@ -77,7 +83,7 @@ function Payment() {
                         <p>Risalpur 23200</p>
                     </div>
 
-                </dv>
+                </div>
 
                 <dv className="payment__section">
                     <div className="payment__title">
@@ -103,25 +109,25 @@ function Payment() {
                     <div className="payment__details">
                         {/* stripe magic goes here */}
                         <form onSubmit={handleSubmit}>
-                            <CardElement onChange={handleChange}/>
+                            <CardElement className="payment__form" onChange={handleChange}/>
 
-                            <div className="payment__priceContainer">
-                            <CurrencyFormat
-                                renderText={(value) => (
+                            <div className='payment__priceContainer'>
+                                <CurrencyFormat
+                                    renderText={(value) => (
                                         <h3>Order Total: {value}</h3>
-                                )}
-                                decimalScale={2}
-                                value={getBasketTotal(basket)}
-                                displayType={"text"}
-                                thousandSeparator={true}
-                                prefix={"$"}
+                                    )}
+                                    decimalScale={2}
+                                    value={getBasketTotal(basket)}
+                                    displayType={"text"}
+                                    thousandSeparator={true}
+                                    prefix={"$"}
                                 />
                                 <Button variant="outline-info" disabled={processing || disabled || succeeded}>
                                     <span>{processing ? <p>Processing</p> : "Buy Now"}</span>
                                 </Button>
                             </div>
 
-                            {/* Error */}
+                                {/* Errors */}
                             {error && <div>{error}</div>}
                         </form>
                     </div>

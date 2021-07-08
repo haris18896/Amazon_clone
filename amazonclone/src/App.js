@@ -7,6 +7,7 @@ import Header from './components/Header'
 import Home from './components/Home'
 import Checkout from './components/Checkout'
 import Payment from './components/Payment'
+import Orders from './components/Orders'
 
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Login from './components/Login'
@@ -47,6 +48,10 @@ function App() {
         <div className="App">
 
             <Switch>
+              <Route path="/orders">
+                  <Orders />
+                </Route>
+
                 <Route path="/login">
                   <Login />
                 </Route>
