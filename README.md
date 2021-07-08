@@ -486,6 +486,7 @@ case "EMPTY_BASKET":
 //src/App.js
 //......
 <Route path="/orders">
+    <Header />
     <Orders />
 </Route>
 ```
