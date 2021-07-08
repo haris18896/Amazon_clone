@@ -6,6 +6,7 @@
     align-items: center;
     background-color: rgb(68, 68, 68);
     z-index: 1;
+    color: white;
     margin: 10px;
     padding: 20px;
     box-shadow: 0 4px 8px 0 rgba(160, 160, 160, 1), 0 6px 20px 0 rgba(138, 138, 138, 0.5);

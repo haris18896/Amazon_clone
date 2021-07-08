@@ -12,7 +12,12 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Login from './components/Login'
 import { auth } from './firebase';
 import { useStateValue } from './StateProvider';
+
+import { loadStripe } from '@stripe/stripe-js'
+import { Elements } from '@stripe/react-stripe-js'
 // import SignUp from './components/SignUp'
+
+const promise = loadStripe('pk_test_51JAmrZHsNUk0QSokC1Nj5ikhTIsLFkO86R3uEyyeBKZM2bEEuEr56Lvhq0xEHyJBlnh7BIGKMI9rJsk3y35kAeb3000YP6S59C')
 
 
 function App() {
@@ -27,6 +32,7 @@ function App() {
           type: 'SET_USER',
           user: authUser,
         })
+
       } else {
         dispatch({
           type: 'SET_USER',
@@ -56,7 +62,9 @@ function App() {
 
                 <Route path="/payment">
                   <Header />
-                  <Payment />
+                  <Elements stripe={promise}>
+                    <Payment />
+                  </Elements>
                 </Route>
               {/* this is the home page route, default, by default if there is no route to go it will route the path 
               to "/" home page */}
