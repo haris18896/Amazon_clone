@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react'
 import { useStateValue } from '../StateProvider';
 import CheckoutProduct from './CheckoutProduct'

@@ -262,15 +262,131 @@ Now we are jumping too cloud
 ```
 "it will create a Functions folder in the working directory which is a full backend"
 `$ cd functions`
-`funstions` has it's own node_modules and package.json
+`functions` has it's own node_modules and package.json
 
 ### ` on any point from now make sure you are in the functions directory `
 other wise you will be installing packages to your app but not to backend.
+***********************************************************************************************
 
 Now we are going to build an express app and host it on Cloud function
+for that we have to install some dependencies
+`npm i express` make sure you are in the functions directory
 
 ```js
 //functions/index.js
+const functions = require("firebase-functions");
+const express = require("express");
+const cors = require("cors");
 
 ```
 
+this is in node.js by default, but node doesn't include that fancy `import express from 'express'`
+```
+npm i cors
+npm i stripe
+```
+Now copy the secret key from Stripe.com --> developers --> API keys
+
+```js
+//functions/index.js
+const stripe = require("stripe")('sk_test_5Uk0QSoktqyLcxcJJZMBscLdKaddsfcxsdgl8zasdfasdfasddfasdddsgwerjjrhtqkloT1kir9zdT0DwSXDOpK4s100tclFEvWT')
+
+// API
+
+// App config
+
+// Middlewares
+
+// API routes
+
+// Listen command 
+
+```
+Now we are going to start the express app
+```js
+//functions/index.js
+//....
+// API
+
+// App config
+const app = express();
+// Middlewares
+app.use(cors({origin: true}));
+app.use(express.json());
+// API routes
+// dummy route
+app.get('/', (request, response) => response.status(200).send("Hello world"));
+// Listen command
+exports.api = functions.https.onRequest(app)
+
+```
+
+to run it on local host, we actually how to emulate it.
+
+` $ firebase emulators:start `
+
+if not automatically page popped, then scroll the terminal and click on the link for the express app
+it will open a firebase emulators suite
+``` View in Emulator UI : http://localhost:4000/functions  ```
+
+Below is the http initialize and it will give you a URL for API, you can find this in the terminal too.
+```
+functions[us-central1-api]: http function initialized (http://localhost:5001/clone-4cb1b/us-central1/api).
+```
+by clicking on it , Hello world page will pop up,
+Now we have an API running.
+
+```js
+//functions/index.js
+/* eslint-disable no-unused-vars */
+
+const functions = require("firebase-functions");
+const express = require("express");
+const cors = require("cors");
+
+const stripe = require("stripe")(
+    "sk_test_51JAmrZHsNUk0QSoktqyLcxcJJZMBscLdKgl8zySo9"+
+"G16XILBhwU44v0zETyw6A7CtwoT1kir9zdT0DwSXDOpK4s100tclFEvWT"
+);
+
+// API
+
+// App config
+const app = express();
+// Middlewares
+app.use(cors({origin: true}));
+app.use(express.json());
+// API routes
+// dummy route
+app.get("/", (request, response) => response.status(200).send("Hello world"));
+
+// app.get("/haris", (request, response) => response.status(200).send("Whats up"
+// +" haris"));
+// http://localhost:5001/clone-4cb1b/us-central1/api/haris
+app.post("/payments/create");
+// we have used this inside /src/components/payment.js in useEffect on getClientSecret
+// Listen command
+exports.api = functions.https.onRequest(app);
+
+// example end point
+// http://localhost:5001/clone-4cb1b/us-central1/api
+```
+Now we are going to make a post request
+
+```js
+//functions/index.js
+// API routes
+app.post("/payments/create", async (request, response) => {
+    // query param
+    const total = request.query.total;
+    console.log("Payment Request Received, for this amount",  total)
+    const paymentIntent = await stripe.paymentIntents.create({
+        amount: total,  // sub units of the currency
+        currency: "usd",
+    });
+    // ok- created
+    response.status(201).send({
+        clientSecret: paymentIntents.clientSecret,
+        })
+});
+```
