@@ -291,4 +291,6 @@ now
 
 ``` firebase deploy --only hosting```
 
-hosting is the frontend and functions are the backend.
+```###hosting is the frontend and functions are the backend.```
+**********************************************************************************************************
+
