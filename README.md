@@ -261,11 +261,34 @@ Now we are going to link `Returns and Orders` in Header to Orders page.
 in `axios.js` we have a local host baseURL, to test because it's really very fast
 ```    baseURL: "http function initialized (http://localhost:5001/clone-4cb1b/us-central1/api)"```
 
-When ever you have a function to deploy
+When ever you have a functions to deploy, use the given command to deploy backend.
 ```
 firebase deploy --only functions
 ```
+
 also at this point it probably gonna fail.what you need to do is goto the firebase and update/upgrade `blaze` or `spark`.
 it will be in the bottom.
 
-you have to change the plan to `blaze` from 'spark`
+you have to change the plan to `blaze` from 'spark`, enter your card, but it's actually free.
+deployment will complete if you are on blaze plan.
+
+firebase --> functions --> grab the link for baseURL
+to copy that URL you must have to be on `Blaze plan`
+
+`baseURL` is our endpoint api which says `Hello world`
+```js
+//functions/index.js
+// - API routes
+app.get("/", (request, response) => response.status(200).send("hello world"));
+```
+Now our url is live. and we don't need to run it locally.
+
+`cd ../` go back to the project folder from functions.
+and run `npm run build` so that we can deploy the front end.
+
+at this point if you run `firebase deploy` it will try to deploy the front end and the backend which are the functions. instead we only have to deploy the front end, because we already have deployed the backend to the cloud functions with `firebase deploy --only functions`
+now 
+
+``` firebase deploy --only hosting```
+
+hosting is the frontend and functions are the backend.
