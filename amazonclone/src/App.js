@@ -18,7 +18,7 @@ import { loadStripe } from '@stripe/stripe-js'
 import { Elements } from '@stripe/react-stripe-js'
 // import SignUp from './components/SignUp'
 
-const promise = loadStripe('pk_test_51JAmrZHsNUk0QSokC1Nj5ikhTIsLFkO86R3uEyyeBKZM2bEEuEr56Lvhq0xEHyJBlnh7BIGKMI9rJsk3y35kAeb3000YP6S59C')
+const promise = loadStripe("pk_test_51JAmrZHsNUk0QSokC1Nj5ikhTIsLFkO86R3uEyyeBKZM2bEEuEr56Lvhq0xEHyJBlnh7BIGKMI9rJsk3y35kAeb3000YP6S59C")
 
 
 function App() {

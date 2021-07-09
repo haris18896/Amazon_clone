@@ -43,10 +43,12 @@ function Payment() {
     }, [basket])
 
     console.log("The Secret is >>>", clientSecret)
+    console.log("Person", user);
 
-    const handleSubmit = async event => {
+    const handleSubmit = async (event) => {
+        // do all the fancy stripe stuff...
         event.preventDefault();
-        setProcessing(true)
+        setProcessing(true);
 
         const payload = await stripe.confirmCardPayment(clientSecret, {
             payment_method: {
@@ -78,6 +80,8 @@ function Payment() {
     }
 
     const handleChange = event => {
+        // Listen for changes in the CardElement
+        // and display any errors as the customer types their card details
         setDisabled(event.empty);
         setError(event.error ? event.error.message : "");
     }
